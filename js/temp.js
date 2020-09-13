@@ -4,22 +4,22 @@ function updateTemp() {
 	if (!tmp.hcActive) tmp.hcActive = {};
 	for (let row = 1; row <= H_CHALLS.rows; row++) {
 		for (let col = 1; col <= H_CHALLS.cols; col++) {
-			let id = row * 10 + col;
+			const id = row * 10 + col;
 			tmp.hcActive[id] = HCActive(id);
 		}
 	}
 
 	if (!tmp.layerEffs) tmp.layerEffs = {};
-	for (let name in LAYER_EFFS) tmp.layerEffs[name] = LAYER_EFFS[name]();
+	for (const name in LAYER_EFFS) tmp.layerEffs[name] = LAYER_EFFS[name]();
 
 	if (!tmp.layerReqs) tmp.layerReqs = {};
-	for (let name in LAYER_REQS) tmp.layerReqs[name] = getLayerReq(name);
+	for (const name in LAYER_REQS) tmp.layerReqs[name] = getLayerReq(name);
 
 	if (!tmp.gainMults) tmp.gainMults = {};
 	if (!tmp.resetGain) tmp.resetGain = {};
 	if (!tmp.nextAt) tmp.nextAt = {};
 	if (!tmp.layerAmt) tmp.layerAmt = {};
-	for (let i in LAYERS) {
+	for (const i in LAYERS) {
 		tmp.layerAmt[LAYERS[i]] = getLayerAmt(LAYERS[i]);
 		tmp.gainMults[LAYERS[i]] = getLayerGainMult(LAYERS[i]);
 		tmp.resetGain[LAYERS[i]] = getResetGain(LAYERS[i]);

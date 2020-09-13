@@ -6,8 +6,8 @@ var ctx;
 window.addEventListener("resize", resizeCanvas);
 
 function retrieveCanvasData() {
-	let treeCanv = document.getElementById("treeCanvas");
-	let treeTab = document.getElementById("treeTab");
+	const treeCanv = document.getElementById("treeCanvas");
+	const treeTab = document.getElementById("treeTab");
 	if (treeCanv === undefined || treeCanv === null) return false;
 	if (treeTab === undefined || treeTab === null) return false;
 	canvas = treeCanv;
@@ -65,25 +65,25 @@ function drawTree() {
 }
 
 function drawTreeBranch(num1, num2) {
-	// taken from Antimatter Dimensions & adjusted slightly
-	let start = document.getElementById(num1).getBoundingClientRect();
-	let end = document.getElementById(num2).getBoundingClientRect();
-	let x1 =
+	// Taken from Antimatter Dimensions & adjusted slightly
+	const start = document.getElementById(num1).getBoundingClientRect();
+	const end = document.getElementById(num2).getBoundingClientRect();
+	const x1 =
 		start.left +
 		start.width / 2 +
 		(document.getElementById("treeTab").scrollLeft ||
 			document.body.scrollLeft);
-	let y1 =
+	const y1 =
 		start.top +
 		start.height / 2 +
 		(document.getElementById("treeTab").scrollTop ||
 			document.body.scrollTop);
-	let x2 =
+	const x2 =
 		end.left +
 		end.width / 2 +
 		(document.getElementById("treeTab").scrollLeft ||
 			document.body.scrollLeft);
-	let y2 =
+	const y2 =
 		end.top +
 		end.height / 2 +
 		(document.getElementById("treeTab").scrollTop ||
