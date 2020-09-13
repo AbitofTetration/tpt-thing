@@ -321,19 +321,18 @@ function layerUnl(layer) {
 	}
 }
 
-function rowReset(row, layer) {
+function rowReset(row, whatLayer) {
 	// Deep Copy
 	const prev = JSON.parse(JSON.stringify(player));
 	const start = getStartPlayer();
-	switch (row) {
-		case 0:
-			player.points = new Decimal(0);
-			break;
-		case 1:
-			player.points = new Decimal(10);
-			player.p.points = new Decimal(0);
-			player.p.upgrades = [];
-			break;
+	player.points = nD(row === 0 ? 0 : 10);
+	for (let i = 0; i < row; i++) {
+		for (let j = 0; j < ROW_LAYERS[i].length; j++) {
+			const layer = ROW_LAYERS[i][j];
+			player[layer].points = nD(0);
+			player[layer].best = nD(0);
+			player[layer].upgrades = [];
+		}
 	}
 }
 

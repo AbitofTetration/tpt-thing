@@ -14,21 +14,21 @@
       "assignedTo": {
         "name": "Yhvr"
       },
-      "creation_time": "2020-09-13T03:21:02.244Z",
-      "id": "15",
+      "creation_time": "2020-09-13T14:21:58.365Z",
+      "id": "17",
       "prio": 1,
       "references": [],
-      "title": "name.color"
+      "title": "milestones"
     },
     {
       "assignedTo": {
         "name": "Yhvr"
       },
-      "creation_time": "2020-09-13T03:18:14.002Z",
-      "id": "10",
-      "prio": 1,
+      "creation_time": "2020-09-13T03:21:02.244Z",
+      "id": "15",
+      "prio": 0,
       "references": [],
-      "title": "rowReset"
+      "title": "name.color"
     },
     {
       "assignedTo": {
@@ -156,6 +156,16 @@
       "prio": 1,
       "references": [],
       "title": "canvas"
+    },
+    {
+      "assignedTo": {
+        "name": "Yhvr"
+      },
+      "creation_time": "2020-09-13T03:18:14.002Z",
+      "id": "10",
+      "prio": 1,
+      "references": [],
+      "title": "rowReset"
     }
   ]
 }
