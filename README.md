@@ -70,7 +70,23 @@ Layer({
 			// The number to display __ONLY IF REQ IS A FUNCTION__
 			// disp: 5,
 			text: "Keep x on knowledge reset.",
+			// Show this milestone if MS display is "AUTOMATION"
+			auto: true,
 		},
 	],
+	// Custom variables
+	custom: {
+		myVar: {
+			// the default amount
+			amt: nD(0),
+			// if the game should convert it to a decimal
+			decimal: true,
+			reset(layer) {
+				// example `layer`: "p"
+				// If you should reset the variable for this prestige
+				return true;
+			}
+		},
+	},
 });
 ```

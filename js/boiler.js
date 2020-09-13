@@ -25,6 +25,7 @@ const boiler = {
 			upgrades: [],
 		},
 	},
+	loops: []
 };
 
 function nodeShown(layer) {
@@ -107,4 +108,18 @@ function Layer(data) {
 
 	// Deal with data.milestones
 	if (data.milestones) boiler.layers[name].milestones = data.milestones;
+
+	// Deal with data.custom
+	boiler.layers[name].decimals = [];
+	if (data.custom) {
+		boiler.layers[name].custom = data.custom;
+		for (const key in data.custom) {
+			boiler.startPlayer[name][key] = data.custom[key].amt;
+			if (data.custom[key].decimal)
+				boiler.layers[name].decimals.push(key);
+		}
+	}
+
+	// Deal with data.tick
+	if (data.tick) boiler.loops.push(data.tick);
 }

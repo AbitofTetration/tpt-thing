@@ -148,6 +148,9 @@ function convertToDecimal() {
 	for (const layer in boiler.layers) {
 		player[layer].points = nD(player[layer].points);
 		player[layer].best = nD(player[layer].best);
+		for (const item in boiler.layers[layer].decimals) {
+			player[layer][item] = nD(player[layer][item]);
+		}
 	}
 	// Example:
 	// player.k.points = new Decimal(player.k.points);
@@ -471,6 +474,8 @@ function gameLoop(diff) {
 		player.autosave = false;
 		NaNalert = true;
 	}
+
+	boiler.loops.forEach(loop => loop(diff));
 }
 
 function hardReset() {
