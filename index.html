@@ -9,6 +9,8 @@
 	<script type="text/javascript" src="js/game.js"></script>
 	<script type="text/javascript" src="js/v.js"></script>
 	<script type="text/javascript" src="js/canvas.js"></script>
+	<script type="text/javascript" src="js/boiler.js"></script>
+	<script type="text/javascript" src="js/layers/p.js"></script>
 </head>
 <body onload="load()">
 	<div class="vl"></div>
@@ -60,11 +62,19 @@
 			</span>
 			<br>You have <h2>{{format(player.points)}}</h2> Points
 			<br><br><br><br><br>
-			<table>
-				<tr>
-					<td id="p"><button onclick="showTab('p')" v-bind:tooltip="(player.points.gte(tmp.layerReqs.p)||player.p.unl) ? (formatWhole(player.p.points)+' prestige points') : ('Reach '+format(tmp.layerReqs.p)+' points to unlock')" v-bind:class="{ treeNode: true, p: true, locked: (player.points.lt(tmp.layerReqs.p)&&!player.p.unl), can: (player.points.gte(tmp.layerReqs.p)||player.p.unl) }">P</button></td>
-				</tr>
-			</table><!--<table>
+			<div v-for="(row, index) in ROW_LAYERS">
+				<table>
+					<tr>
+						<td><tree-node v-for="layer in ROW_LAYERS[index]" :layer="layer"></tree-node></td>
+					</tr>
+				</table>
+				<table v-if="index !== ROW_LAYERS.length - 1">
+					<tr>
+						<td><button class="treeNode hidden"></button></td>
+					</tr>
+				</table>
+			</div>
+			<!--<table>
 				<tr>
 					<td><button class="treeNode hidden"></button></td>
 				</tr>

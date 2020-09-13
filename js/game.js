@@ -9,60 +9,31 @@ const offTime = {
 };
 let needCanvasUpdate = true;
 let NaNalert = false;
-let gameEnded = false;
 
 function getStartPlayer() {
-	return {
-		tab: "tree",
-		time: Date.now(),
-		autosave: true,
-		msDisplay: "always",
-		offlineProd: true,
-		versionType: "real",
-		version: 1.0,
-		timePlayed: 0,
-		keepGoing: false,
-		hasNaN: false,
-		points: new Decimal(10),
-		p: {
-			unl: false,
-			points: new Decimal(0),
-			best: new Decimal(0),
-			upgrades: [],
-		},
-	};
+	return boiler.startPlayer;
 }
 
-const LAYERS = ["p"];
+const LAYERS = [];
 
-const LAYER_REQS = {
-	p: new Decimal(10),
-};
+const LAYER_REQS = {};
 
-const LAYER_RES = {
-	p: "prestige points",
-};
+const LAYER_RES = {};
 
 const LAYER_RES_CEIL = [];
 
-const LAYER_TYPE = {
-	p: "normal",
-	// "normal" || "static"
-};
+// "normal" | "static"
+const LAYER_TYPE = {};
 
-const LAYER_EXP = {
-	p: new Decimal(0.5),
-};
+const LAYER_EXP = {};
 
-const LAYER_BASE = {
-	// Base multiplier, only for static?
-};
+// Base multiplier, only for static?
+const LAYER_BASE = {};
 
-const LAYER_ROW = {
-	p: 0,
-};
+const LAYER_ROW = {};
 
-const ROW_LAYERS = [["p"]];
+// [["x"], ["a", "b"]]
+const ROW_LAYERS = [];
 
 const LAYER_EFFS = {
 	// Example:
@@ -71,82 +42,7 @@ const LAYER_EFFS = {
 	// }
 };
 
-const LAYER_UPGS = {
-	p: {
-		rows: 2,
-		cols: 3,
-		11: {
-			desc: "Gain 1 Point every second.",
-			cost: new Decimal(1),
-			unl() {
-				return player.p.unl;
-			},
-		},
-		12: {
-			desc:
-				"Point generation is faster based on your unspent Prestige Points.",
-			cost: new Decimal(1),
-			unl() {
-				return player.p.upgrades.includes(11);
-			},
-			currently() {
-				let ret = player.p.points.plus(1).pow(0.5);
-				if (ret.gte("1e20000000")) ret = ret.sqrt().times("1e10000000");
-				return ret;
-			},
-			effDisp(x) {
-				return `${format(x)}x`;
-			},
-		},
-		13: {
-			desc: "Point generation is faster based on your Point amount.",
-			cost: new Decimal(5),
-			unl() {
-				return player.p.upgrades.includes(12);
-			},
-			currently() {
-				return player.points.plus(1).log10().pow(0.75).plus(1);
-			},
-			effDisp(x) {
-				return `${format(x)}x`;
-			},
-		},
-		21: {
-			desc: "Prestige Point gain is doubled.",
-			cost: new Decimal(20),
-			unl() {
-				return player.p.upgrades.includes(11);
-			},
-		},
-		22: {
-			desc:
-				"Point generation is faster based on your Prestige Upgrades bought.",
-			cost: new Decimal(75),
-			unl() {
-				return player.p.upgrades.includes(12);
-			},
-			currently() {
-				return Decimal.pow(1.4, player.p.upgrades.length);
-			},
-			effDisp(x) {
-				return `${format(x)}x`;
-			},
-		},
-		23: {
-			desc: "Prestige Point gain is boosted by your Point amount.",
-			cost: new Decimal(5e3),
-			unl() {
-				return player.p.upgrades.includes(13);
-			},
-			currently() {
-				return player.points.plus(1).log10().cbrt().plus(1);
-			},
-			effDisp(x) {
-				return `${format(x)}x`;
-			},
-		},
-	},
-};
+const LAYER_UPGS = {};
 
 const TAB_REQS = {
 	tree() {
@@ -164,12 +60,6 @@ const TAB_REQS = {
 	credits() {
 		return true;
 	},
-	p() {
-		return (
-			(player.p.unl || player.points.gte(tmp.layerReqs.p)) &&
-			layerUnl("p")
-		);
-	},
 	// Example:
 	// k() {
 	//  return (
@@ -179,10 +69,8 @@ const TAB_REQS = {
 	// }
 };
 
-const LAYER_AMT_NAMES = {
-	p: "points",
-	// Next in: "x ___"
-};
+// Next in: "x ___"
+const LAYER_AMT_NAMES = {};
 
 function getLayerAmt(layer) {
 	switch (layer) {
@@ -250,12 +138,17 @@ function checkForVars() {
 	const start = getStartPlayer();
 	// Example:
 	// if (player.a === undefined) player.a = 5;
+	for (const key in start) {
+		if (player[key] === undefined) player[key] = start[key];
+	}
 }
 
 function convertToDecimal() {
-	player.points = new Decimal(player.points);
-	player.p.points = new Decimal(player.p.points);
-	player.p.best = new Decimal(player.p.best);
+	player.points = nD(player.points);
+	for (const layer in boiler.layers) {
+		player[layer].points = nD(player[layer].points);
+		player[layer].best = nD(player[layer].best);
+	}
 	// Example:
 	// player.k.points = new Decimal(player.k.points);
 	// player.k.best = new Decimal(player.k.best);
@@ -565,10 +458,6 @@ function keepGoing() {
 function gameLoop(diff) {
 	diff = new Decimal(diff);
 	if (isNaN(diff.toNumber())) diff = new Decimal(0);
-	if (gameEnded && !player.keepGoing) {
-		diff = new Decimal(0);
-		player.tab = "gameEnded";
-	}
 	player.timePlayed += diff.toNumber();
 	if (player.p.upgrades.includes(11))
 		player.points = player.points.plus(tmp.pointGen.times(diff)).max(0);
@@ -599,13 +488,11 @@ function hardReset() {
 
 const saveInterval = setInterval(() => {
 	if (player === undefined) return;
-	if (gameEnded && !player.keepGoing) return;
 	if (player.autosave) save();
 }, 5000);
 
 const interval = setInterval(() => {
 	if (player === undefined || tmp === undefined) return;
-	if (gameEnded && !player.keepGoing) return;
 	let diff = (Date.now() - player.time) / 1000;
 	if (!player.offlineProd) offTime.remain = 0;
 	if (offTime.remain > 0) {
@@ -621,7 +508,6 @@ const interval = setInterval(() => {
 
 document.onkeydown = e => {
 	if (player === undefined) return;
-	if (gameEnded && !player.keepGoing) return;
 	const shiftDown = e.shiftKey;
 	const ctrlDown = e.ctrlKey;
 	const key = e.key;

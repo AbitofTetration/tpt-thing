@@ -28,7 +28,12 @@ function drawTree() {
 	if (!retrieveCanvasData()) return;
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	// Branches! :D
-
+	for (const key in boiler.layers) {
+		const layer = boiler.layers[key];
+		if (layer.shown() && layer.branches) {
+			layer.branches.forEach(branch => drawTreeBranch(key, branch));
+		}
+	}
 	needCanvasUpdate = false;
 }
 

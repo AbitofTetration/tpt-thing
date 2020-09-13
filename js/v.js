@@ -18,6 +18,8 @@ function loadVue() {
 			doReset,
 			buyUpg,
 			milestoneShown,
+			showTab,
+			layerShown,
 			LAYERS,
 			LAYER_RES,
 			LAYER_TYPE,
@@ -25,6 +27,7 @@ function loadVue() {
 			LAYER_EFFS,
 			LAYER_AMT_NAMES,
 			LAYER_RES_CEIL,
+			ROW_LAYERS,
 		},
 	});
 }
