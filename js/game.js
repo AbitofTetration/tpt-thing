@@ -90,17 +90,7 @@ const LAYER_UPGS = {
 				return player.p.upgrades.includes(11);
 			},
 			currently() {
-				if (tmp.hcActive ? tmp.hcActive[32] : true)
-					return new Decimal(1);
-				let ret = player.p.points
-					.plus(1)
-					.pow(
-						player.g.upgrades.includes(24)
-							? 1.1
-							: player.g.upgrades.includes(14)
-							? 0.75
-							: 0.5
-					);
+				let ret = player.p.points.plus(1).pow(0.5);
 				if (ret.gte("1e20000000")) ret = ret.sqrt().times("1e10000000");
 				return ret;
 			},
@@ -115,11 +105,7 @@ const LAYER_UPGS = {
 				return player.p.upgrades.includes(12);
 			},
 			currently() {
-				let ret = player.points.plus(1).log10().pow(0.75).plus(1);
-				if (player.g.upgrades.includes(15))
-					ret = ret.pow(LAYER_UPGS.g[15].currently());
-				if (player.sp.upgrades.includes(11)) ret = ret.pow(100);
-				return ret;
+				return player.points.plus(1).log10().pow(0.75).plus(1);
 			},
 			effDisp(x) {
 				return `${format(x)}x`;
@@ -129,10 +115,7 @@ const LAYER_UPGS = {
 			desc: "Prestige Point gain is doubled.",
 			cost: new Decimal(20),
 			unl() {
-				return (
-					(player.b.unl || player.g.unl) &&
-					player.p.upgrades.includes(11)
-				);
+				return player.p.upgrades.includes(11);
 			},
 		},
 		22: {
@@ -140,10 +123,7 @@ const LAYER_UPGS = {
 				"Point generation is faster based on your Prestige Upgrades bought.",
 			cost: new Decimal(75),
 			unl() {
-				return (
-					(player.b.unl || player.g.unl) &&
-					player.p.upgrades.includes(12)
-				);
+				return player.p.upgrades.includes(12);
 			},
 			currently() {
 				return Decimal.pow(1.4, player.p.upgrades.length);
@@ -156,18 +136,10 @@ const LAYER_UPGS = {
 			desc: "Prestige Point gain is boosted by your Point amount.",
 			cost: new Decimal(5e3),
 			unl() {
-				return (
-					(player.b.unl || player.g.unl) &&
-					player.p.upgrades.includes(13)
-				);
+				return player.p.upgrades.includes(13);
 			},
 			currently() {
-				let ret = player.points.plus(1).log10().cbrt().plus(1);
-				if (player.g.upgrades.includes(23))
-					ret = ret.pow(LAYER_UPGS.g[23].currently());
-				if (player.p.upgrades.includes(33)) ret = ret.pow(1.25);
-				if (player.sp.upgrades.includes(11)) ret = ret.pow(100);
-				return ret;
+				return player.points.plus(1).log10().cbrt().plus(1);
 			},
 			effDisp(x) {
 				return `${format(x)}x`;
@@ -535,16 +507,7 @@ function getPointGen() {
 		gain = gain.times(LAYER_UPGS.p[13].currently());
 	if (player.p.upgrades.includes(22))
 		gain = gain.times(LAYER_UPGS.p[22].currently());
-	if (player.b.unl) gain = gain.times(tmp.layerEffs.b);
-	if (player.g.unl) gain = gain.times(tmp.genPowEff);
-	if (player.t.unl) gain = gain.times(tmp.timeEff);
-	if (player.s.unl && tmp.spaceBuildEff)
-		gain = gain.times(tmp.spaceBuildEff[1]);
-	if (player.q.unl && tmp.quirkEff) gain = gain.times(tmp.quirkEff);
-	if (player.q.upgrades.includes(11))
-		gain = gain.times(LAYER_UPGS.q[11].currently());
 
-	if (tmp.hcActive ? tmp.hcActive[31] : true) gain = gain.tetrate(0.1);
 	return gain;
 }
 
@@ -663,8 +626,10 @@ document.onkeydown = e => {
 	const ctrlDown = e.ctrlKey;
 	const key = e.key;
 	if (!LAYERS.includes(key) || ctrlDown || shiftDown) {
-		switch (key) {
+		switch (
+			key
 			// For if you have duplicate layers!
+		) {
 		}
 	} else if (player[key].unl) doReset(key);
 };
