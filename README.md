@@ -1,2 +1,3 @@
-# Prestige-Tree
-A tree of prestige upgrades
+# Boiler Tree
+
+Make mods of *Prestige Tree* using an uber-easy framework.
