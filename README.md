@@ -13,6 +13,7 @@ Layer({
 		short: "k",
 		full: "Knowledge",
 		resource: "knowledge",
+		resourceCapital: "Knowledge",
 	},
 	// Where the node is on the tree
 	where: {
@@ -51,15 +52,25 @@ Layer({
 		exp: 0.5,
 		// (only needed if type is "static")
 		// the base multiplier for requirement scaling
-		base: 5
+		base: 5,
 	},
 	// Because upgrades take up a lot of space, I'll only have one.
 	upgrades: {
 		rows: 1,
 		cols: 1,
 		11: {
-			desc: "Multiply point gain based on"
-		}
+			desc: "Multiply point gain based on",
+		},
 	},
+	// Milestones!
+	milestones: [
+		{
+			// Req is a Number, String, Decimal, or Function<Boolean>
+			req: 25,
+			// The number to display __ONLY IF REQ IS A FUNCTION__
+			// disp: 5,
+			text: "Keep x on knowledge reset.",
+		},
+	],
 });
 ```

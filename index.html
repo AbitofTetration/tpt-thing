@@ -24,7 +24,6 @@
 			This game uses <a href="https://github.com/Patashu/break_eternity.js/tree/master" target="_blank">break_eternity.js</a> by Patashu.<br>
 			Made by Jacorb<br>
 			Idea by papyrus (on discord)<br>
-			Note: If anyone wishes to make a mod of this game, that is perfectly fine with me, just make sure to name it something different (ex: Prestige Tree NG+) and to let me know on <a href="https://discord.gg/wwQfgPa" target="_blank">my discord</a>.<br>
 			This mod was made with Boiler Tree, a tool for making mods of Prestige Tree.
 		</div>
 		<div v-if="player.tab === 'info'" class="col right">
@@ -74,21 +73,6 @@
 					</tr>
 				</table>
 			</div>
-			<!--<table>
-				<tr>
-					<td><button class="treeNode hidden"></button></td>
-				</tr>
-			</table><table>
-				<tr>
-					<td v-if="player.b.unl||player.g.unl" class="left"><br><br><img class="remove" src="remove.png" onclick="resetRow(1)"></img></td>
-					<td id="b" v-if="layerUnl('b')"><button onclick="showTab('b')" v-bind:tooltip="((player.points.gte(tmp.layerReqs.b)||player.b.unl)&&layerUnl('b')) ? (formatWhole(player.b.points)+' boosters') : ('Reach '+format(tmp.layerReqs.b)+' points to unlock')" v-bind:class="{ treeNode: true, b: true, locked: (player.points.lt(tmp.layerReqs.b)&&!player.b.unl), can: (player.points.gte(tmp.layerReqs.b)||player.b.unl) }">B</button></td>
-					<td id="g" v-if="layerUnl('g')"><button onclick="showTab('g')" v-bind:tooltip="((player.points.gte(tmp.layerReqs.g)||player.g.unl)&&layerUnl('g')) ? (formatWhole(player.g.points)+' generators') : ('Reach '+format(tmp.layerReqs.g)+' points to unlock')" v-bind:class="{ treeNode: true, g: true, locked: (player.points.lt(tmp.layerReqs.g)&&!player.g.unl), can: (player.points.gte(tmp.layerReqs.g)||player.g.unl) }">G</button></td>
-				</tr>
-			</table><table>
-				<tr>
-					<td><button class="treeNode hidden"></button></td>
-				</tr>
-			</table>-->
 			<canvas id="treeCanvas" class="canvas"></canvas>
 		</div>
 		<div v-for="layer in LAYERS">
@@ -96,6 +80,18 @@
 				<button class="back" onclick="showTab('tree')">←</button><br><br><br>
 				You have <h2 v-bind:class="{ [layer+'_txt']: true }">{{formatWhole(player[layer].points)}}</h2> {{LAYER_RES[layer]}}<span v-if="Object.keys(LAYER_EFFS).includes(layer)">, {{getLayerEffDesc(layer)}}</span>
 				<br><br>
+				<div v-if="boiler.layers[layer].milestones">
+					<table>
+						<tr v-for="milestone in boiler.layers[layer].milestones">
+							<td
+								v-if="milestoneShown(resolveMilestone(milestone.req, player[layer].best), milestone.auto)"
+								:class="{
+									milestone: !resolveMilestone(milestone.req, player[layer].best),
+									milestoneDone: resolveMilestone(milestone.req, player[layer].best)
+								}">{{ typeof milestone.req === "function" ? milestone.disp : milestone.req }} {{ boiler.layers[layer].name }}<br>{{ milestone.text }}</td>
+						</tr>
+					</table>
+				</div>
 				<!--
 					Example Miles Ton
 				<div v-if="layer=='g'">
@@ -110,7 +106,13 @@
 				<br><br><br>
 				<div class="upgTable" v-if="LAYER_UPGS[layer]">
 					<div v-for="row in LAYER_UPGS[layer].rows" class="upgRow">
-						<div v-for="col in LAYER_UPGS[layer].cols"><button v-if="LAYER_UPGS[layer][row*10+col].unl()" v-on:click="buyUpg(layer, row*10+col)" v-bind:class="{ [layer]: true, upg: true, bought: player[layer].upgrades.includes(row*10+col), locked: (player[layer].points.lt(LAYER_UPGS[layer][row*10+col].cost)&&!player[layer].upgrades.includes(row*10+col)), can: (player[layer].points.gte(LAYER_UPGS[layer][row*10+col].cost)&&!player[layer].upgrades.includes(row*10+col)) }">{{ LAYER_UPGS[layer][row*10+col].desc }}<br>Cost: {{ formatWhole(LAYER_UPGS[layer][row*10+col].cost) }} {{LAYER_RES[layer]}}<span v-if="LAYER_UPGS[layer][row*10+col].currently"><br>Currently: {{LAYER_UPGS[layer][row*10+col].effDisp(LAYER_UPGS[layer][row*10+col].currently())}}</span></button></div>
+						<div v-for="col in LAYER_UPGS[layer].cols">
+							<button
+								v-if="LAYER_UPGS[layer][row*10+col].unl()"
+								@click="buyUpg(layer, row*10+col)"
+								:class="{ [layer]: true, upg: true, bought: player[layer].upgrades.includes(row*10+col), locked: (player[layer].points.lt(LAYER_UPGS[layer][row*10+col].cost)&&!player[layer].upgrades.includes(row*10+col)), can: (player[layer].points.gte(LAYER_UPGS[layer][row*10+col].cost)&&!player[layer].upgrades.includes(row*10+col)) }"
+							>{{ LAYER_UPGS[layer][row*10+col].desc }}<br>Cost: {{ formatWhole(LAYER_UPGS[layer][row*10+col].cost) }} {{LAYER_RES[layer]}}<span v-if="LAYER_UPGS[layer][row*10+col].currently"><br>Currently: {{LAYER_UPGS[layer][row*10+col].effDisp(LAYER_UPGS[layer][row*10+col].currently())}}</span></button>
+						</div>
 					</div>
 				</div>
 				<br><br>

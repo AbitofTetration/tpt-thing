@@ -62,6 +62,11 @@ function resolveResource(resource) {
 	return player.points;
 }
 
+function resolveMilestone(milestone, amt) {
+	if (typeof milestone === "function") return milestone();
+	return amt.gte(milestone);
+}
+
 function Layer(data) {
 	const name = data.name.short;
 	// Deal with data.upgrades
@@ -71,6 +76,7 @@ function Layer(data) {
 	LAYERS.push(name);
 	LAYER_RES[name] = data.name.resource;
 	boiler.layers[name] = {};
+	boiler.layers[name].name = data.name.resourceCapital || "";
 	boiler.startPlayer[name] = {
 		unl: false,
 		points: nD(0),
@@ -98,4 +104,7 @@ function Layer(data) {
 	LAYER_AMT_NAMES[name] = data.req.resourceName || "points";
 	LAYER_TYPE[name] = data.req.type;
 	LAYER_EXP[name] = data.req.exp;
+
+	// Deal with data.milestones
+	if (data.milestones) boiler.layers[name].milestones = data.milestones;
 }

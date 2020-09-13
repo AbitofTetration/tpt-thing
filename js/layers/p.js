@@ -98,6 +98,7 @@ Layer({
 		short: "k",
 		full: "Knowledge",
 		resource: "knowledge",
+		resourceCapital: "Knowledge",
 	},
 	where: {
 		row: 1,
@@ -112,6 +113,18 @@ Layer({
 		base: 5,
 		exp: 1.1,
 	},
+	milestones: [
+		{
+			req: 1,
+			text: "Keep prestige upgrades on knowledge reset.",
+		},
+		{
+			req: 2,
+			text: "Gain 100% of prestige point gain per second.",
+			// Show this if MS Display is at "AUTOMATION"
+			auto: true,
+		},
+	],
 	upgrades: {
 		rows: 2,
 		cols: 3,
