@@ -3,6 +3,7 @@
 
 const D = Decimal;
 const nD = n => new D(n);
+let modInfo;
 
 const boiler = {
 	layers: {},
@@ -25,7 +26,7 @@ const boiler = {
 			upgrades: [],
 		},
 	},
-	loops: []
+	loops: [],
 };
 
 function nodeShown(layer) {
@@ -68,7 +69,7 @@ function resolveMilestone(milestone, amt) {
 	return amt.gte(milestone);
 }
 
-function Layer(data) {
+boiler.Layer = function (data) {
 	const name = data.name.short;
 	// Deal with data.upgrades
 	LAYER_UPGS[name] = data.upgrades;
@@ -105,6 +106,7 @@ function Layer(data) {
 	LAYER_AMT_NAMES[name] = data.req.resourceName || "points";
 	LAYER_TYPE[name] = data.req.type;
 	LAYER_EXP[name] = data.req.exp;
+	boiler.layers[name].gainMult = data.req.mult || (() => nD(1));
 
 	// Deal with data.milestones
 	if (data.milestones) boiler.layers[name].milestones = data.milestones;
@@ -122,4 +124,15 @@ function Layer(data) {
 
 	// Deal with data.tick
 	if (data.tick) boiler.loops.push(data.tick);
-}
+
+	// Deal with data.eff
+	if (data.eff) {
+		if (data.eff.display) boiler.layers[name].effDesc = data.eff.display;
+		if (data.eff.effect) LAYER_EFFS[name] = data.eff.effect;
+	}
+};
+
+boiler.register = function (data) {
+	boiler.getPointGen = data.points;
+	modInfo = data.name;
+};

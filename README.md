@@ -4,10 +4,29 @@ Make mods of _Prestige Tree_ using an uber-easy framework.
 
 ## Usage
 
+### `boiler.register(options)`
+
+You **MUST** register your mod using `boiler.register`.
+
+```js
+boiler.register({
+	// Point generation
+	points() {
+		return 1;
+	},
+	name: {
+		name: "My Mod",
+		id: "mymod",
+	},
+});
+```
+
+### `boiler.Layer(options)`
+
 ```js
 // Usage is as follows.
 // In this example, we will create a layer called "Knowledge".
-Layer({
+boiler.Layer({
 	// Naming for the layer
 	name: {
 		short: "k",
@@ -59,7 +78,7 @@ Layer({
 		rows: 1,
 		cols: 1,
 		11: {
-			desc: "Multiply point gain based on",
+			desc: "Multiply point gain based on something.",
 		},
 	},
 	// Milestones!
@@ -85,7 +104,20 @@ Layer({
 				// example `layer`: "p"
 				// If you should reset the variable for this prestige
 				return true;
-			}
+			},
+		},
+	},
+	// Code that runs during gameLoop
+	tick(diff) {
+		console.log(diff.toNumber());
+	},
+	eff: {
+		// both optional.
+		display(eff) {
+			return `which is doing something at ${eff} efficiency.`;
+		},
+		effect() {
+			return player.k.myVar;
 		},
 	},
 });

@@ -83,13 +83,7 @@ function getLayerAmt(layer) {
 function getLayerEffDesc(layer) {
 	if (!Object.keys(LAYER_EFFS).includes(layer)) return "???";
 	const eff = tmp.layerEffs[layer];
-	switch (
-		layer
-		// Example:
-		// case "k":
-		//     return `which are generating ${eff} peenor;s per second`
-	) {
-	}
+	if (boiler.layers[layer].effDesc) return boiler.layers[layer].effDesc(eff);
 }
 
 function save() {
@@ -141,6 +135,13 @@ function checkForVars() {
 	for (const key in start) {
 		if (player[key] === undefined) player[key] = start[key];
 	}
+	for (const layer in boiler.layers) {
+		for (const key in start[layer]) {
+			if (["unl", "points", "best", "upgrades"].includes(key)) continue;
+			if (player[layer][key] === undefined)
+				player[layer][key] = start[layer][key];
+		}
+	}
 }
 
 function convertToDecimal() {
@@ -149,7 +150,8 @@ function convertToDecimal() {
 		player[layer].points = nD(player[layer].points);
 		player[layer].best = nD(player[layer].best);
 		for (const item in boiler.layers[layer].decimals) {
-			player[layer][item] = nD(player[layer][item]);
+			const dec = boiler.layers[layer].decimals[item];
+			player[layer][dec] = nD(player[layer][dec]);
 		}
 	}
 	// Example:
@@ -238,17 +240,7 @@ function getLayerReq(layer) {
 
 function getLayerGainMult(layer) {
 	// What multiplies the gain of this layer's currency?
-	let mult = new Decimal(1);
-	switch (layer) {
-		case "p":
-			if (player.p.upgrades.includes(21)) mult = mult.times(2);
-			if (player.p.upgrades.includes(23))
-				mult = mult.times(LAYER_UPGS.p[23].currently());
-			if (player.p.upgrades.includes(31))
-				mult = mult.times(LAYER_UPGS.p[31].currently());
-			break;
-	}
-	return mult;
+	return boiler.layers[layer].gainMult();
 }
 
 function getGainExp(layer) {
@@ -395,15 +387,7 @@ function buyUpg(layer, id) {
 }
 
 function getPointGen() {
-	let gain = new Decimal(1);
-	if (player.p.upgrades.includes(12))
-		gain = gain.times(LAYER_UPGS.p[12].currently());
-	if (player.p.upgrades.includes(13))
-		gain = gain.times(LAYER_UPGS.p[13].currently());
-	if (player.p.upgrades.includes(22))
-		gain = gain.times(LAYER_UPGS.p[22].currently());
-
-	return gain;
+	return boiler.getPointGen();
 }
 
 function resetRow(row) {

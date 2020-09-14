@@ -1,6 +1,23 @@
 "use strict";
 
-Layer({
+boiler.register({
+	points() {
+		let gain = nD(1);
+		if (player.p.upgrades.includes(12))
+			gain = gain.times(LAYER_UPGS.p[12].currently());
+		if (player.p.upgrades.includes(13))
+			gain = gain.times(LAYER_UPGS.p[13].currently());
+		if (player.p.upgrades.includes(22))
+			gain = gain.times(LAYER_UPGS.p[22].currently());
+		return gain;
+	},
+	name: {
+		name: "Example",
+		id: "example_boiler",
+	},
+});
+
+boiler.Layer({
 	name: {
 		short: "p",
 		full: "Prestige",
@@ -16,6 +33,15 @@ Layer({
 		amount: 10,
 		type: "normal",
 		exp: 0.5,
+		mult() {
+			let mult = nD(1);
+			if (player.p.upgrades.includes(21)) mult = mult.times(2);
+			if (player.p.upgrades.includes(23))
+				mult = mult.times(LAYER_UPGS.p[23].currently());
+			if (player.p.upgrades.includes(31))
+				mult = mult.times(LAYER_UPGS.p[31].currently());
+			return mult;
+		},
 	},
 	upgrades: {
 		rows: 2,
@@ -93,7 +119,7 @@ Layer({
 	},
 });
 
-Layer({
+boiler.Layer({
 	name: {
 		short: "k",
 		full: "Knowledge",
@@ -159,7 +185,21 @@ Layer({
 		},
 	},
 	tick(time) {
-		if (player.k.upgrades.includes(11))
-			player.k.intellect = player.k.intellect.add(nD(1).mul(time));
+		if (player.k.unl)
+			player.k.intellect = player.k.intellect.add(player.k.points.mul(time));
+	},
+	eff: {
+		display(eff) {
+			return `making ${format(
+				player.k.points
+			)} intellect per second, and you have ${format(
+				player.k.intellect
+			)} intellect which is multiplying Prestige Point gain by ${format(
+				eff
+			)}`;
+		},
+		effect() {
+			return player.k.intellect.add(2).log2().pow(2);
+		},
 	},
 });

@@ -4,21 +4,11 @@
       "assignedTo": {
         "name": "Yhvr"
       },
-      "creation_time": "2020-09-13T03:19:09.181Z",
-      "id": "12",
-      "prio": 1,
-      "references": [],
-      "title": "getPointGen"
-    },
-    {
-      "assignedTo": {
-        "name": "Yhvr"
-      },
       "creation_time": "2020-09-13T14:30:20.470Z",
       "id": "18",
       "prio": 1,
       "references": [],
-      "title": "keep stuff on doReset"
+      "title": "ability keep stuff on doReset"
     },
     {
       "assignedTo": {
@@ -33,38 +23,11 @@
       "assignedTo": {
         "name": "Yhvr"
       },
-      "creation_time": "2020-09-13T03:16:58.948Z",
-      "id": "3",
-      "references": [],
-      "title": "checkForVars"
-    },
-    {
-      "assignedTo": {
-        "name": "Yhvr"
-      },
       "creation_time": "2020-09-13T03:19:40.100Z",
       "id": "13",
       "prio": 0,
       "references": [],
       "title": "custom keybinds"
-    },
-    {
-      "assignedTo": {
-        "name": "Yhvr"
-      },
-      "creation_time": "2020-09-13T03:16:44.631Z",
-      "id": "2",
-      "references": [],
-      "title": "getLayerEffDesc"
-    },
-    {
-      "assignedTo": {
-        "name": "Yhvr"
-      },
-      "creation_time": "2020-09-13T03:17:36.645Z",
-      "id": "7",
-      "references": [],
-      "title": "getLayerGainMult"
     },
     {
       "assignedTo": {
@@ -83,16 +46,6 @@
       "id": "1",
       "references": [],
       "title": "getStartPlayer"
-    },
-    {
-      "assignedTo": {
-        "name": "Yhvr"
-      },
-      "creation_time": "2020-09-13T03:18:04.650Z",
-      "id": "9",
-      "prio": 0,
-      "references": [],
-      "title": "layerUnl"
     },
     {
       "assignedTo": {
@@ -166,6 +119,26 @@
       "assignedTo": {
         "name": "Yhvr"
       },
+      "creation_time": "2020-09-13T19:06:12.811Z",
+      "id": "20",
+      "prio": 1,
+      "references": [],
+      "title": "gameLoop"
+    },
+    {
+      "assignedTo": {
+        "name": "Yhvr"
+      },
+      "creation_time": "2020-09-13T03:19:09.181Z",
+      "id": "12",
+      "prio": 1,
+      "references": [],
+      "title": "getPointGen"
+    },
+    {
+      "assignedTo": {
+        "name": "Yhvr"
+      },
       "creation_time": "2020-09-13T14:21:58.365Z",
       "id": "17",
       "prio": 1,
@@ -186,6 +159,15 @@
       "assignedTo": {
         "name": "Yhvr"
       },
+      "creation_time": "2020-09-13T03:16:58.948Z",
+      "id": "3",
+      "references": [],
+      "title": "checkForVars"
+    },
+    {
+      "assignedTo": {
+        "name": "Yhvr"
+      },
       "creation_time": "2020-09-13T03:17:05.969Z",
       "id": "4",
       "references": [],
@@ -195,11 +177,29 @@
       "assignedTo": {
         "name": "Yhvr"
       },
-      "creation_time": "2020-09-13T19:06:12.811Z",
-      "id": "20",
-      "prio": 1,
+      "creation_time": "2020-09-13T03:16:44.631Z",
+      "id": "2",
       "references": [],
-      "title": "gameLoop"
+      "title": "getLayerEffDesc"
+    },
+    {
+      "assignedTo": {
+        "name": "Yhvr"
+      },
+      "creation_time": "2020-09-13T03:17:36.645Z",
+      "id": "7",
+      "references": [],
+      "title": "getLayerGainMult"
+    },
+    {
+      "assignedTo": {
+        "name": "Yhvr"
+      },
+      "creation_time": "2020-09-13T03:18:04.650Z",
+      "id": "9",
+      "prio": 0,
+      "references": [],
+      "title": "layerUnl"
     }
   ]
 }
