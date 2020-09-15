@@ -100,11 +100,6 @@ boiler.Layer({
 			amt: nD(0),
 			// if the game should convert it to a decimal
 			decimal: true,
-			reset(layer) {
-				// example `layer`: "p"
-				// If you should reset the variable for this prestige
-				return true;
-			},
 		},
 	},
 	// Code that runs during gameLoop
@@ -118,6 +113,15 @@ boiler.Layer({
 		},
 		effect() {
 			return player.k.myVar;
+		},
+	},
+	// If you should keep a variable on reset!
+	keep: {
+		// What works: points, best, upgrades, any custom vars
+		x(layer) {
+			// Won't actually happen because it's above p, just an example!
+			if (layer === "p") return player.k.best.gte(5);
+			return false;
 		},
 	},
 });

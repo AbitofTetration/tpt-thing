@@ -4,11 +4,11 @@
       "assignedTo": {
         "name": "Yhvr"
       },
-      "creation_time": "2020-09-13T14:30:20.470Z",
-      "id": "18",
+      "creation_time": "2020-09-15T00:15:05.372Z",
+      "id": "21",
       "prio": 1,
       "references": [],
-      "title": "ability keep stuff on doReset"
+      "title": "custom HTML"
     },
     {
       "assignedTo": {
@@ -79,7 +79,18 @@
     }
   ],
   "in-progress": [],
-  "testing": [],
+  "testing": [
+    {
+      "assignedTo": {
+        "name": "Yhvr"
+      },
+      "creation_time": "2020-09-13T14:30:20.470Z",
+      "id": "18",
+      "prio": 1,
+      "references": [],
+      "title": "ability keep stuff on doReset"
+    }
+  ],
   "done": [
     {
       "assignedTo": {

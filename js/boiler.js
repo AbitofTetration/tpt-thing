@@ -71,6 +71,12 @@ function resolveMilestone(milestone, amt) {
 
 boiler.Layer = function (data) {
 	const name = data.name.short;
+	// Funny stuff
+	if (!data.custom) data.custom = {};
+	data.custom.best = { amt: nD(0), decimal: true };
+	data.custom.points = { amt: nD(0), decimal: true };
+	data.custom.upgrades = { amt: [], decimal: false };
+
 	// Deal with data.upgrades
 	LAYER_UPGS[name] = data.upgrades;
 
@@ -113,13 +119,10 @@ boiler.Layer = function (data) {
 
 	// Deal with data.custom
 	boiler.layers[name].decimals = [];
-	if (data.custom) {
-		boiler.layers[name].custom = data.custom;
-		for (const key in data.custom) {
-			boiler.startPlayer[name][key] = data.custom[key].amt;
-			if (data.custom[key].decimal)
-				boiler.layers[name].decimals.push(key);
-		}
+	boiler.layers[name].custom = data.custom;
+	for (const key in data.custom) {
+		boiler.startPlayer[name][key] = data.custom[key].amt;
+		if (data.custom[key].decimal) boiler.layers[name].decimals.push(key);
 	}
 
 	// Deal with data.tick
@@ -130,6 +133,9 @@ boiler.Layer = function (data) {
 		if (data.eff.display) boiler.layers[name].effDesc = data.eff.display;
 		if (data.eff.effect) LAYER_EFFS[name] = data.eff.effect;
 	}
+
+	// Deal with data.keep
+	boiler.layers[name].keep = data.keep || {};
 };
 
 boiler.register = function (data) {

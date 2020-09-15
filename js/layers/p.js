@@ -179,9 +179,6 @@ boiler.Layer({
 		intellect: {
 			amt: nD(0),
 			decimal: true,
-			reset() {
-				return true;
-			},
 		},
 	},
 	tick(time) {

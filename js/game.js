@@ -324,6 +324,19 @@ function rowReset(row, whatLayer) {
 	for (let i = 0; i < row; i++) {
 		for (let j = 0; j < ROW_LAYERS[i].length; j++) {
 			const layer = ROW_LAYERS[i][j];
+			for (const key in player[layer]) {
+				if (key === "unl") continue;
+				const def = boiler.layers[name].custom[key].amt;
+				let bool;
+				try {
+					bool = boiler.layers[name].keep[key]();
+				} catch (e) {
+					// In case it's undef, not func
+					bool = false;
+				}
+				if (bool) continue;
+				else player[layer][key] = def;
+			}
 			player[layer].points = nD(0);
 			player[layer].best = nD(0);
 			player[layer].upgrades = [];
