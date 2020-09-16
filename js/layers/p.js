@@ -183,20 +183,23 @@ boiler.Layer({
 	},
 	tick(time) {
 		if (player.k.unl)
-			player.k.intellect = player.k.intellect.add(player.k.points.mul(time));
+			player.k.intellect = player.k.intellect.add(
+				player.k.points.mul(time)
+			);
 	},
 	eff: {
-		display(eff) {
-			return `making ${format(
-				player.k.points
-			)} intellect per second, and you have ${format(
-				player.k.intellect
-			)} intellect which is multiplying Prestige Point gain by ${format(
-				eff
-			)}`;
+		display() {
+			return `making ${format(player.k.points)} intellect per second`;
 		},
 		effect() {
 			return player.k.intellect.add(2).log2().pow(2);
 		},
+	},
+	html() {
+		return `You have ${format(
+			player.k.intellect
+		)} intellect, which is multiplying Prestige Point gain by ${format(
+			LAYER_EFFS.k()
+		)}`;
 	},
 });

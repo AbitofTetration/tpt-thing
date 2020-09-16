@@ -124,5 +124,7 @@ boiler.Layer({
 			return false;
 		},
 	},
+	// Optional, custom HTML
+	html() { return `You have ${x} y.` }
 });
 ```

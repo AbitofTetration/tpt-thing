@@ -100,6 +100,7 @@
 					<tr><td v-if="milestoneShown(player.g.best.gte(15))" v-bind:class="{ milestone: player.g.best.lt(15), milestoneDone: player.g.best.gte(15) }">15 Generators<br>You can buy max Generators</td></tr></table>
 				</div>
 				-->
+				<div v-if="boiler.layers[layer].html" v-html="boiler.layers[layer].html()"></div>
 				<br><br><br>
 				<button v-if="LAYER_TYPE[layer]=='normal'" v-bind:class="{ [layer]: true, reset: true, locked: tmp.layerAmt[layer].lt(tmp.layerReqs[layer]), can: tmp.layerAmt[layer].gte(tmp.layerReqs[layer]) }" v-on:click="doReset(layer)">+{{formatWhole(tmp.resetGain[layer])}} {{LAYER_RES[layer]}}<br>Next at {{ (LAYER_RES_CEIL.includes(layer) ? formatWhole(tmp.nextAt[layer]) : format(tmp.nextAt[layer])) }} {{ LAYER_AMT_NAMES[layer] }}</button>
 				<button v-if="LAYER_TYPE[layer]=='static'" v-bind:class="{ [layer]: true, reset: true, locked: tmp.layerAmt[layer].lt(tmp.nextAt[layer]), can: tmp.layerAmt[layer].gte(tmp.nextAt[layer]) }" v-on:click="doReset(layer)">+{{formatWhole(tmp.resetGain[layer])}} {{LAYER_RES[layer]}}<br>Req: {{(LAYER_RES_CEIL.includes(layer) ? formatWhole(tmp.nextAt[layer]) : format(tmp.nextAt[layer]))}} {{ LAYER_AMT_NAMES[layer] }}</button>

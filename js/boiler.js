@@ -136,6 +136,9 @@ boiler.Layer = function (data) {
 
 	// Deal with data.keep
 	boiler.layers[name].keep = data.keep || {};
+
+	// Deal with data.html
+	boiler.layers[name].html = data.html || false;
 };
 
 boiler.register = function (data) {
