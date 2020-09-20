@@ -9,7 +9,7 @@
 	<script type="text/javascript" src="js/game.js"></script>
 	<script type="text/javascript" src="js/v.js"></script>
 	<script type="text/javascript" src="js/canvas.js"></script>
-	<script type="text/javascript" src="js/boiler.js"></script>
+	<script type="text/javascript" src="js/layer.js"></script>
 	<script type="text/javascript" src="js/layers/p.js"></script>
 </head>
 <body onload="load()">
@@ -24,7 +24,7 @@
 			This game uses <a href="https://github.com/Patashu/break_eternity.js/tree/master" target="_blank">break_eternity.js</a> by Patashu.<br>
 			Made by Jacorb<br>
 			Idea by papyrus (on discord)<br>
-			This mod was made with Boiler Tree, a tool for making mods of Prestige Tree.
+			This mod was made with layer.js, a tool for making mods of Prestige Tree.
 		</div>
 		<div v-if="player.tab === 'info'" class="col right">
 			<button class="back" onclick="showTab('tree')">←</button><br><br><br><br><br>
@@ -80,15 +80,15 @@
 				<button class="back" onclick="showTab('tree')">←</button><br><br><br>
 				You have <h2 v-bind:class="{ [layer+'_txt']: true }">{{formatWhole(player[layer].points)}}</h2> {{LAYER_RES[layer]}}<span v-if="Object.keys(LAYER_EFFS).includes(layer)">, {{getLayerEffDesc(layer)}}</span>
 				<br><br>
-				<div v-if="boiler.layers[layer].milestones">
+				<div v-if="layers.layers[layer].milestones">
 					<table>
-						<tr v-for="milestone in boiler.layers[layer].milestones">
+						<tr v-for="milestone in layers.layers[layer].milestones">
 							<td
 								v-if="milestoneShown(resolveMilestone(milestone.req, player[layer].best), milestone.auto)"
 								:class="{
 									milestone: !resolveMilestone(milestone.req, player[layer].best),
 									milestoneDone: resolveMilestone(milestone.req, player[layer].best)
-								}">{{ typeof milestone.req === "function" ? milestone.disp : milestone.req }} {{ boiler.layers[layer].name }}<br>{{ milestone.text }}</td>
+								}">{{ typeof milestone.req === "function" ? milestone.disp : milestone.req }} {{ layers.layers[layer].name }}<br>{{ milestone.text }}</td>
 						</tr>
 					</table>
 				</div>
@@ -100,7 +100,7 @@
 					<tr><td v-if="milestoneShown(player.g.best.gte(15))" v-bind:class="{ milestone: player.g.best.lt(15), milestoneDone: player.g.best.gte(15) }">15 Generators<br>You can buy max Generators</td></tr></table>
 				</div>
 				-->
-				<div v-if="boiler.layers[layer].html" v-html="boiler.layers[layer].html()"></div>
+				<div v-if="layers.layers[layer].html" v-html="layers.layers[layer].html()"></div>
 				<br><br><br>
 				<button v-if="LAYER_TYPE[layer]=='normal'" v-bind:class="{ [layer]: true, reset: true, locked: tmp.layerAmt[layer].lt(tmp.layerReqs[layer]), can: tmp.layerAmt[layer].gte(tmp.layerReqs[layer]) }" v-on:click="doReset(layer)">+{{formatWhole(tmp.resetGain[layer])}} {{LAYER_RES[layer]}}<br>Next at {{ (LAYER_RES_CEIL.includes(layer) ? formatWhole(tmp.nextAt[layer]) : format(tmp.nextAt[layer])) }} {{ LAYER_AMT_NAMES[layer] }}</button>
 				<button v-if="LAYER_TYPE[layer]=='static'" v-bind:class="{ [layer]: true, reset: true, locked: tmp.layerAmt[layer].lt(tmp.nextAt[layer]), can: tmp.layerAmt[layer].gte(tmp.nextAt[layer]) }" v-on:click="doReset(layer)">+{{formatWhole(tmp.resetGain[layer])}} {{LAYER_RES[layer]}}<br>Req: {{(LAYER_RES_CEIL.includes(layer) ? formatWhole(tmp.nextAt[layer]) : format(tmp.nextAt[layer]))}} {{ LAYER_AMT_NAMES[layer] }}</button>

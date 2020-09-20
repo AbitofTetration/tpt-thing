@@ -28,7 +28,7 @@ function loadVue() {
 			LAYER_AMT_NAMES,
 			LAYER_RES_CEIL,
 			ROW_LAYERS,
-			boiler,
+			layers,
 			resolveMilestone,
 		},
 	});

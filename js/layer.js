@@ -1,11 +1,11 @@
-// Boiler made with <3 by Yhvr
+// layer.js made with <3 by Yhvr
 "use strict";
 
 const D = Decimal;
 const nD = n => new D(n);
 let modInfo;
 
-const boiler = {
+const layers = {
 	layers: {},
 	startPlayer: {
 		tab: "tree",
@@ -29,15 +29,15 @@ const boiler = {
 	loops: [],
 };
 
-boiler.css = document.createElement("style");
-document.head.appendChild(boiler.css);
+layers.css = document.createElement("style");
+document.head.appendChild(layers.css);
 
 function nodeShown(layer) {
 	return layerShown(layer);
 }
 
 function layerShown(layer) {
-	return boiler.layers[layer].shown();
+	return layers.layers[layer].shown();
 }
 
 Vue.component("tree-node", {
@@ -72,7 +72,7 @@ function resolveMilestone(milestone, amt) {
 	return amt.gte(milestone);
 }
 
-boiler.Layer = function (data) {
+layers.Layer = function (data) {
 	const name = data.name.short;
 	// Funny stuff
 	if (!data.custom) data.custom = {};
@@ -86,15 +86,15 @@ boiler.Layer = function (data) {
 	// Deal with data.name
 	LAYERS.push(name);
 	LAYER_RES[name] = data.name.resource;
-	boiler.layers[name] = {};
-	boiler.layers[name].name = data.name.resourceCapital || "";
-	boiler.startPlayer[name] = {
+	layers.layers[name] = {};
+	layers.layers[name].name = data.name.resourceCapital || "";
+	layers.startPlayer[name] = {
 		unl: false,
 		points: nD(0),
 		best: nD(0),
 		upgrades: [],
 	};
-	if (data.name.color) boiler.css.innerHTML +=
+	if (data.name.color) layers.css.innerHTML +=
 	`.${name} {
 		background-color: ${data.name.color};
 		color: black;
@@ -112,8 +112,8 @@ boiler.Layer = function (data) {
 		while (!ROW_LAYERS[data.where.row]) ROW_LAYERS.push([]);
 		ROW_LAYERS[data.where.row].push(name);
 	}
-	boiler.layers[name].shown = data.where.shown;
-	if (data.where.branches) boiler.layers[name].branches = data.where.branches;
+	layers.layers[name].shown = data.where.shown;
+	if (data.where.branches) layers.layers[name].branches = data.where.branches;
 
 	TAB_REQS[name] = () =>
 		(player[name].unl ||
@@ -125,38 +125,38 @@ boiler.Layer = function (data) {
 	LAYER_AMT_NAMES[name] = data.req.resourceName || "points";
 	LAYER_TYPE[name] = data.req.type;
 	LAYER_EXP[name] = data.req.exp;
-	boiler.layers[name].gainMult = data.req.mult || (() => nD(1));
-	boiler.layers[name].max = data.req.max || (() => false);
-	boiler.layers[name].mult = data.req.mult || (() => nD(1));
+	layers.layers[name].gainMult = data.req.mult || (() => nD(1));
+	layers.layers[name].max = data.req.max || (() => false);
+	layers.layers[name].mult = data.req.mult || (() => nD(1));
 
 	// Deal with data.milestones
-	if (data.milestones) boiler.layers[name].milestones = data.milestones;
+	if (data.milestones) layers.layers[name].milestones = data.milestones;
 
 	// Deal with data.custom
-	boiler.layers[name].decimals = [];
-	boiler.layers[name].custom = data.custom;
+	layers.layers[name].decimals = [];
+	layers.layers[name].custom = data.custom;
 	for (const key in data.custom) {
-		boiler.startPlayer[name][key] = data.custom[key].amt;
-		if (data.custom[key].decimal) boiler.layers[name].decimals.push(key);
+		layers.startPlayer[name][key] = data.custom[key].amt;
+		if (data.custom[key].decimal) layers.layers[name].decimals.push(key);
 	}
 
 	// Deal with data.tick
-	if (data.tick) boiler.loops.push(data.tick);
+	if (data.tick) layers.loops.push(data.tick);
 
 	// Deal with data.eff
 	if (data.eff) {
-		if (data.eff.display) boiler.layers[name].effDesc = data.eff.display;
+		if (data.eff.display) layers.layers[name].effDesc = data.eff.display;
 		if (data.eff.effect) LAYER_EFFS[name] = data.eff.effect;
 	}
 
 	// Deal with data.keep
-	boiler.layers[name].keep = data.keep || {};
+	layers.layers[name].keep = data.keep || {};
 
 	// Deal with data.html
-	boiler.layers[name].html = data.html || false;
+	layers.layers[name].html = data.html || false;
 };
 
-boiler.register = function (data) {
-	boiler.getPointGen = data.points;
+layers.register = function (data) {
+	layers.getPointGen = data.points;
 	modInfo = data.name;
 };

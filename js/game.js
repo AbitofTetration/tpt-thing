@@ -11,7 +11,7 @@ let needCanvasUpdate = true;
 let NaNalert = false;
 
 function getStartPlayer() {
-	return boiler.startPlayer;
+	return layers.startPlayer;
 }
 
 const LAYERS = [];
@@ -83,7 +83,7 @@ function getLayerAmt(layer) {
 function getLayerEffDesc(layer) {
 	if (!Object.keys(LAYER_EFFS).includes(layer)) return "???";
 	const eff = tmp.layerEffs[layer];
-	if (boiler.layers[layer].effDesc) return boiler.layers[layer].effDesc(eff);
+	if (layers.layers[layer].effDesc) return layers.layers[layer].effDesc(eff);
 }
 
 function save() {
@@ -135,7 +135,7 @@ function checkForVars() {
 	for (const key in start) {
 		if (player[key] === undefined) player[key] = start[key];
 	}
-	for (const layer in boiler.layers) {
+	for (const layer in layers.layers) {
 		for (const key in start[layer]) {
 			if (["unl", "points", "best", "upgrades"].includes(key)) continue;
 			if (player[layer][key] === undefined)
@@ -146,11 +146,11 @@ function checkForVars() {
 
 function convertToDecimal() {
 	player.points = nD(player.points);
-	for (const layer in boiler.layers) {
+	for (const layer in layers.layers) {
 		player[layer].points = nD(player[layer].points);
 		player[layer].best = nD(player[layer].best);
-		for (const item in boiler.layers[layer].decimals) {
-			const dec = boiler.layers[layer].decimals[item];
+		for (const item in layers.layers[layer].decimals) {
+			const dec = layers.layers[layer].decimals[item];
 			player[layer][dec] = nD(player[layer][dec]);
 		}
 	}
@@ -216,28 +216,20 @@ function showTab(name) {
 }
 
 function canBuyMax(layer) {
-	return boiler.layers[layer].max();
+	return layers.layers[layer].max();
 }
 
 function getLayerReq(layer) {
-	return LAYER_REQS[layer].mul(boiler.layers[layer].mult());
+	return LAYER_REQS[layer].mul(layers.layers[layer].mult());
 }
 
 function getLayerGainMult(layer) {
 	// What multiplies the gain of this layer's currency?
-	return boiler.layers[layer].gainMult();
+	return layers.layers[layer].gainMult();
 }
 
 function getGainExp(layer) {
-	let exp = nD(1);
-	switch (
-		layer
-		// Example:
-		// case "k":
-		//  if (player.f.upgrades.includes(14)) exp = exp.add(1);
-	) {
-	}
-	return exp;
+	return nD(1);
 }
 
 function getResetGain(layer) {
@@ -311,10 +303,10 @@ function rowReset(row, whatLayer) {
 			const layer = ROW_LAYERS[i][j];
 			for (const key in player[layer]) {
 				if (key === "unl") continue;
-				const def = boiler.layers[name].custom[key].amt;
+				const def = layers.layers[name].custom[key].amt;
 				let bool;
 				try {
-					bool = boiler.layers[name].keep[key]();
+					bool = layers.layers[name].keep[key](whatLayer);
 				} catch (e) {
 					// In case it's undef, not func
 					bool = false;
@@ -385,7 +377,7 @@ function buyUpg(layer, id) {
 }
 
 function getPointGen() {
-	return boiler.getPointGen();
+	return layers.getPointGen();
 }
 
 function resetRow(row) {
@@ -457,7 +449,7 @@ function gameLoop(diff) {
 		NaNalert = true;
 	}
 
-	boiler.loops.forEach(loop => loop(diff));
+	layers.loops.forEach(loop => loop(diff));
 }
 
 function hardReset() {
