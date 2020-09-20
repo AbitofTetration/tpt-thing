@@ -1,15 +1,15 @@
-# Boiler Tree
+# layer.js
 
 Make mods of _Prestige Tree_ using an uber-easy framework.
 
 ## Usage
 
-### `boiler.register(options)`
+### `layers.register(options)`
 
-You **MUST** register your mod using `boiler.register`.
+You **MUST** register your mod using `layers.register`.
 
 ```js
-boiler.register({
+layers.register({
 	// Point generation
 	points() {
 		return 1;
@@ -21,12 +21,12 @@ boiler.register({
 });
 ```
 
-### `boiler.Layer(options)`
+### `layers.Layer(options)`
 
 ```js
 // Usage is as follows.
 // In this example, we will create a layer called "Knowledge".
-boiler.Layer({
+layers.Layer({
 	// Naming for the layer
 	name: {
 		short: "k",

@@ -1,6 +1,6 @@
 "use strict";
 
-boiler.register({
+layers.register({
 	points() {
 		let gain = nD(1);
 		if (player.p.upgrades.includes(12))
@@ -13,11 +13,11 @@ boiler.register({
 	},
 	name: {
 		name: "Example",
-		id: "example_boiler",
+		id: "layerjs_example",
 	},
 });
 
-boiler.Layer({
+layers.Layer({
 	name: {
 		short: "p",
 		full: "Prestige",
@@ -119,7 +119,7 @@ boiler.Layer({
 	},
 });
 
-boiler.Layer({
+layers.Layer({
 	name: {
 		short: "k",
 		full: "Knowledge",
