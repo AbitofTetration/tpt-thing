@@ -216,26 +216,11 @@ function showTab(name) {
 }
 
 function canBuyMax(layer) {
-	switch (layer) {
-		// Example:
-		// case "k":
-		//  return player.f.best.gte(1);
-		default:
-			return false;
-	}
+	return boiler.layers[layer].max();
 }
 
 function getLayerReq(layer) {
-	let req = LAYER_REQS[layer];
-	switch (
-		layer
-		// Example:
-		// case "k":
-		//  if (player.f.unl) req = req.mul(100);
-		//  break;
-	) {
-	}
-	return req;
+	return LAYER_REQS[layer].mul(boiler.layers[layer].mult());
 }
 
 function getLayerGainMult(layer) {
@@ -244,7 +229,7 @@ function getLayerGainMult(layer) {
 }
 
 function getGainExp(layer) {
-	let exp = new Decimal(1);
+	let exp = nD(1);
 	switch (
 		layer
 		// Example:

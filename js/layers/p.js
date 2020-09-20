@@ -125,6 +125,7 @@ boiler.Layer({
 		full: "Knowledge",
 		resource: "knowledge",
 		resourceCapital: "Knowledge",
+		color: "red",
 	},
 	where: {
 		row: 1,

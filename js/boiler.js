@@ -29,6 +29,9 @@ const boiler = {
 	loops: [],
 };
 
+boiler.css = document.createElement("style");
+document.head.appendChild(boiler.css);
+
 function nodeShown(layer) {
 	return layerShown(layer);
 }
@@ -91,6 +94,16 @@ boiler.Layer = function (data) {
 		best: nD(0),
 		upgrades: [],
 	};
+	if (data.name.color) boiler.css.innerHTML +=
+	`.${name} {
+		background-color: ${data.name.color};
+		color: black;
+	}
+
+	.${name}_txt {
+		color: ${data.name.color};
+		text-shadow: 0 0 10px ${data.name.color};
+	}`;
 
 	// Deal with data.where
 	LAYER_ROW[name] = data.where.row;
@@ -113,6 +126,8 @@ boiler.Layer = function (data) {
 	LAYER_TYPE[name] = data.req.type;
 	LAYER_EXP[name] = data.req.exp;
 	boiler.layers[name].gainMult = data.req.mult || (() => nD(1));
+	boiler.layers[name].max = data.req.max || (() => false);
+	boiler.layers[name].mult = data.req.mult || (() => nD(1));
 
 	// Deal with data.milestones
 	if (data.milestones) boiler.layers[name].milestones = data.milestones;

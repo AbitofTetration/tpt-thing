@@ -4,48 +4,11 @@
       "assignedTo": {
         "name": "Yhvr"
       },
-      "creation_time": "2020-09-13T03:17:19.386Z",
-      "id": "5",
-      "references": [],
-      "title": "canBuyMax"
-    },
-    {
-      "assignedTo": {
-        "name": "Yhvr"
-      },
       "creation_time": "2020-09-13T03:19:40.100Z",
       "id": "13",
       "prio": 0,
       "references": [],
       "title": "custom keybinds"
-    },
-    {
-      "assignedTo": {
-        "name": "Yhvr"
-      },
-      "creation_time": "2020-09-13T03:17:28.279Z",
-      "id": "6",
-      "references": [],
-      "title": "getLayerReq"
-    },
-    {
-      "assignedTo": {
-        "name": "Yhvr"
-      },
-      "creation_time": "2020-09-13T03:16:23.438Z",
-      "id": "1",
-      "references": [],
-      "title": "getStartPlayer"
-    },
-    {
-      "assignedTo": {
-        "name": "Yhvr"
-      },
-      "creation_time": "2020-09-13T03:21:02.244Z",
-      "id": "15",
-      "prio": 0,
-      "references": [],
-      "title": "name.color"
     },
     {
       "assignedTo": {
@@ -79,6 +42,24 @@
       "prio": 1,
       "references": [],
       "title": "ability keep stuff on doReset"
+    },
+    {
+      "assignedTo": {
+        "name": "Yhvr"
+      },
+      "creation_time": "2020-09-13T03:17:19.386Z",
+      "id": "5",
+      "references": [],
+      "title": "canBuyMax"
+    },
+    {
+      "assignedTo": {
+        "name": "Yhvr"
+      },
+      "creation_time": "2020-09-13T03:17:28.279Z",
+      "id": "6",
+      "references": [],
+      "title": "getLayerReq"
     }
   ],
   "done": [
@@ -101,6 +82,16 @@
       "prio": 1,
       "references": [],
       "title": "canvas"
+    },
+    {
+      "assignedTo": {
+        "name": "Yhvr"
+      },
+      "creation_time": "2020-09-15T00:15:05.372Z",
+      "id": "21",
+      "prio": 1,
+      "references": [],
+      "title": "custom HTML"
     },
     {
       "assignedTo": {
@@ -196,6 +187,15 @@
       "assignedTo": {
         "name": "Yhvr"
       },
+      "creation_time": "2020-09-13T03:16:23.438Z",
+      "id": "1",
+      "references": [],
+      "title": "getStartPlayer"
+    },
+    {
+      "assignedTo": {
+        "name": "Yhvr"
+      },
       "creation_time": "2020-09-13T03:18:04.650Z",
       "id": "9",
       "prio": 0,
@@ -206,11 +206,11 @@
       "assignedTo": {
         "name": "Yhvr"
       },
-      "creation_time": "2020-09-15T00:15:05.372Z",
-      "id": "21",
-      "prio": 1,
+      "creation_time": "2020-09-13T03:21:02.244Z",
+      "id": "15",
+      "prio": 0,
       "references": [],
-      "title": "custom HTML"
+      "title": "name.color"
     }
   ]
 }

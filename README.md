@@ -33,6 +33,9 @@ boiler.Layer({
 		full: "Knowledge",
 		resource: "knowledge",
 		resourceCapital: "Knowledge",
+		// Custom color for layer! Optional.
+		// Any way you can express a color in CSS works here
+		color: "rgb(256, 128, 0)"
 	},
 	// Where the node is on the tree
 	where: {
@@ -72,6 +75,17 @@ boiler.Layer({
 		// (only needed if type is "static")
 		// the base multiplier for requirement scaling
 		base: 5,
+		// optional, only needed if type is "static"
+		// if you can buy max of points for this layer
+		max() {
+			return player.k.best.gte(15);
+		}
+		// optional, multiplier to requirement based on other layers
+		mult() {
+			let mult = 1;
+			if (player.x.unl) mult *= 100;
+			return mult;
+		}
 	},
 	// Because upgrades take up a lot of space, I'll only have one.
 	upgrades: {
